@@ -117,61 +117,120 @@
 ##ylabel('Phase (degrees)');
 
 % Define the registration number
-registration_number = 166;
+##registration_number = 166;
+##
+##% Define frequencies in kHz
+##f1 = registration_number; % f3 is equal to the registration number
+##f2 = registration_number / 2; % Assuming f2 is half of f3
+##f3 = registration_number / 4; % Assuming f1 is a quarter of f3
+##
+##% Define time vector assuming a sampling frequency much higher than f3 to satisfy Nyquist criteria
+##fs = 10 * f1; % Sampling frequency is ten times the highest frequency
+##t = 0:1/fs:0.01; % Time vector from 0 to 10 ms with sampling interval of 1/fs
+##
+##% Generate sinusoidal signals with unit magnitude and zero phase shift
+##x1 = sin(2*pi*f1*1000*t);
+##x2 = sin(2*pi*f2*1000*t);
+##x3 = sin(2*pi*f3*1000*t);
+##
+##% Placeholder for system outputs:
+##y11 = x1; % Replace with actual system response equation or function call
+##y12 = x2;
+##y13 = x3;
+##
+##y21 = x1;
+##y22 = x2;
+##y23 = x3;
+##
+##y31 = x1;
+##y32 = x2;
+##y33 = x3;
+##
+##y41 = x1;
+##y42 = x2;
+##y43 = x3;
+##
+##% Print the results
+##disp('Sinusoidal Signals:');
+##disp('x1:'), disp(x1);
+##disp('x2:'), disp(x2);
+##disp('x3:'), disp(x3);
+##
+##disp('System Outputs:');
+##disp('y11:'), disp(y11);
+##disp('y12:'), disp(y12);
+##disp('y13:'), disp(y13);
+##
+##disp('y21:'), disp(y21);
+##disp('y22:'), disp(y22);
+##disp('y23:'), disp(y23);
+##
+##disp('y31:'), disp(y31);
+##disp('y32:'), disp(y32);
+##disp('y33:'), disp(y33);
+##
+##disp('y41:'), disp(y41);
+##disp('y42:'), disp(y42);
+##disp('y43:'), disp(y43);
 
-% Define frequencies in kHz
-f1 = registration_number; % f3 is equal to the registration number
-f2 = registration_number / 2; % Assuming f2 is half of f3
-f3 = registration_number / 4; % Assuming f1 is a quarter of f3
+##close all;
+##clear all;
+##
+##pkg load control;
+##
+##% Bode plot for sys1
+##
+##subplot(2,2,1);
+##i1 = [1, -1];
+##d1 = [1, 2, 2];
+##sys1 = tf(i1, d1);
+##bode(sys1);
+##
+##% Bode plot for sys2
+##subplot(2,2,2);
+##i2 = [1, 5];
+##d2 = [1, 2, 3];
+##sys2 = tf(i2, d2);
+##bode(sys2);
+####
+##% Bode plot for sys3
+##subplot(2,2,3);
+##i3 = [2, 5, 12];
+##d3 = [1, 2, 10];
+##sys3 = tf(i3, d3);
+##bode(sys3);
+####
+##% Bode plot for sys4
+##subplot(2,2,4);
+##i4 = [2, 5, 12];
+##d4 = conv([1, 2, 10], [1, 2]);
+##sys4 = tf(i4, d4);
+##bode(sys4);
 
-% Define time vector assuming a sampling frequency much higher than f3 to satisfy Nyquist criteria
-fs = 10 * f1; % Sampling frequency is ten times the highest frequency
-t = 0:1/fs:0.01; % Time vector from 0 to 10 ms with sampling interval of 1/fs
+for ii=1:3
+ figure
+ fi=166*ii;
+ t=linspace(0,0.002*pi,20);
+ x=sin(2*pi*fi*t);
+ subplot(4,1,1);
+ sys1=tf(i1,d1,fi);
+ [y1,t1]=lsim(sys1,x);
+ plot(t1,y1);
+ subplot(4,1,2);
+ sys2=tf(i2,d2,fi);
+ [y2,t2]=lsim(sys2,x);
+ plot(t2,y2);
+ subplot(4,1,3);
+ sys3=tf(i3,d3,fi);
+ [y3,t3]=lsim(sys3,x);
+ plot(t3,y3);
+ subplot(4,1,4);
+   sys4=tf(i4,d4,fi);
+   [y4,t4]=lsim(sys4,x);
+   plot(t4,y4);
 
-% Generate sinusoidal signals with unit magnitude and zero phase shift
-x1 = sin(2*pi*f1*1000*t);
-x2 = sin(2*pi*f2*1000*t);
-x3 = sin(2*pi*f3*1000*t);
 
-% Placeholder for system outputs:
-y11 = x1; % Replace with actual system response equation or function call
-y12 = x2;
-y13 = x3;
-
-y21 = x1;
-y22 = x2;
-y23 = x3;
-
-y31 = x1;
-y32 = x2;
-y33 = x3;
-
-y41 = x1;
-y42 = x2;
-y43 = x3;
-
-% Print the results
-disp('Sinusoidal Signals:');
-disp('x1:'), disp(x1);
-disp('x2:'), disp(x2);
-disp('x3:'), disp(x3);
-
-disp('System Outputs:');
-disp('y11:'), disp(y11);
-disp('y12:'), disp(y12);
-disp('y13:'), disp(y13);
-
-disp('y21:'), disp(y21);
-disp('y22:'), disp(y22);
-disp('y23:'), disp(y23);
-
-disp('y31:'), disp(y31);
-disp('y32:'), disp(y32);
-disp('y33:'), disp(y33);
-
-disp('y41:'), disp(y41);
-disp('y42:'), disp(y42);
-disp('y43:'), disp(y43);
+end
 
 
 
